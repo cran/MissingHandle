@@ -29,6 +29,30 @@ clean_and_combine(
 Many times, you will not find data for all dates. After first January, 2011 you may have next data on 20th January, 2011 and so on. Also available dates may have zero values. Try to gather all such kinds of data in different excel sheets of a single excel file. Every sheet will contain two columns (1st one is dates and second one is the data). Load every sheet to separate elements of a list. Using this you can fill the gaps for all the sheets and mark all the corresponding values as zeros. Here I am talking about daily data. Finally, it will combine all the filled results into one data frame (first column is date and other columns will be corresponding values of your sheets) and give one csv file. Number of columns in the data frame will be number of sheets plus one.
 }
 \examples{
+# # real data
+# # reading excel file into list ####
+# file_path <- "excel_file.xlsx"
+#
+# # get sheet names
+# sheet_names <- openxlsx::getSheetNames(file_path)
+#
+# # create an empty list to store the cleaned data frames
+# my_list <- list()
+#
+# # loop through each sheet and apply the cleaning code
+# for (sheet_name in sheet_names) {
+#
+#   column_types <- c('date', 'numeric')
+#
+#   date_format <- "\%d-\%m-\%y"
+#
+#   # Read in the sheet as a data frame
+#   data <- readxl::read_excel(file_path, sheet = sheet_name, col_types = column_types)
+#
+#   # add the cleaned data frame to the list
+#   my_list[[sheet_name]] <- as.data.frame(data)
+# }
+
 # creating example ####
 
 # 1st element ####
@@ -52,7 +76,6 @@ df2 <- data.frame(Dates = dates2, Price_a = price_2)
 
 # Merge the two data frames row-wise
 df <- rbind(df, df2)
-
 
 # Create a sequence of dates from "2016-02-01" to "2022-12-31"
 dates3 <- seq(as.Date("2012-02-01"), as.Date("2012-12-31"), by="day")
@@ -90,7 +113,6 @@ price_1 <- runif(length(dates), min=0, max=100)
 
 # Combine the dates and prices into a data frame
 df_second <- data.frame(Dates = dates, Price_b = price_1)
-
 
 # Create a sequence of dates from "2016-02-01" to "2022-12-31"
 dates2 <- seq(as.Date("2011-06-01"), as.Date("2011-10-31"), by="day")
@@ -131,7 +153,6 @@ df_second <- rbind(df_second, df_second4)
 # Specify column data types
 df_second <- data.frame(Dates = as.Date(df_second$Dates),
                        price_b = round(as.numeric(df_second$Price_b)))
-
 # my_list ####
 # Create a list
 my_list <- list()

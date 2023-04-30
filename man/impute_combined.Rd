@@ -44,7 +44,6 @@ df2 <- data.frame(Dates = dates2, Price_a = price_2)
 # Merge the two data frames row-wise
 df <- rbind(df, df2)
 
-
 # Create a sequence of dates from "2016-02-01" to "2022-12-31"
 dates3 <- seq(as.Date("2012-02-01"), as.Date("2012-12-31"), by="day")
 
@@ -56,7 +55,6 @@ df3 <- data.frame(Dates = dates3, Price_a = price_3)
 
 # Merge the two data frames row-wise
 df <- rbind(df, df3)
-
 
 # Create a sequence of dates from "2016-02-01" to "2022-12-31"
 dates4 <- seq(as.Date("2013-04-01"), as.Date("2022-12-31"), by="day")
@@ -82,7 +80,6 @@ price_1 <- runif(length(dates), min=0, max=100)
 
 # Combine the dates and prices into a data frame
 df_second <- data.frame(Dates = dates, Price_b = price_1)
-
 
 # Create a sequence of dates from "2016-02-01" to "2022-12-31"
 dates2 <- seq(as.Date("2011-06-01"), as.Date("2011-10-31"), by="day")
@@ -123,7 +120,6 @@ df_second <- rbind(df_second, df_second4)
 # Specify column data types
 df_second <- data.frame(Dates = as.Date(df_second$Dates),
                        price_b = round(as.numeric(df_second$Price_b)))
-
 # my_list ####
 # Create a list
 my_list <- list()

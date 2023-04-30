@@ -1,6 +1,7 @@
-1248891e6e95241134d4533a472e3c5a *DESCRIPTION
-e30962e73f7bebec83bc87fdc4acc9dd *NAMESPACE
-91cf8310c5ac832adca12c66b6ae7b97 *R/missing_handle.R
-30893b9aea937c2fbc3038673d9b379c *man/clean_and_combine.Rd
-c0c9fd088c7e4ba8ccdeac77b1bb1deb *man/impute_combined.Rd
-4cd04705f3577da77dc9f4c2ffb26def *man/weekly_from_daily.Rd
+f516a76622cd587387edc34791641c3d *DESCRIPTION
+8f7ad926ff01669fffea055d3adf6cb7 *NAMESPACE
+d4182a3ce5609261b312691054017eaf *R/missing_handle.R
+165d3bcca01869840dae44dc6c277f2b *man/clean_and_combine.Rd
+94f43cc2c72e8237094165ee998c8458 *man/impute_combined.Rd
+069e8186ad770599c0da901faf6b6585 *man/monthly_from_daily.Rd
+ba32e13c6d548d0109675fc4150a3d97 *man/weekly_from_daily.Rd

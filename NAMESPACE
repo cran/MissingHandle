@@ -2,6 +2,7 @@
 
 export(clean_and_combine)
 export(impute_combined)
+export(monthly_from_daily)
 export(weekly_from_daily)
 import(dplyr)
 import(imputeTS)

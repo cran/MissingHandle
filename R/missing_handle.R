@@ -11,6 +11,30 @@
 #'   }
 #' @export
 #' @examples
+#'# # real data
+#'# # reading excel file into list ####
+#'# file_path <- "excel_file.xlsx"
+#'#
+#'# # get sheet names
+#'# sheet_names <- openxlsx::getSheetNames(file_path)
+#'#
+#'# # create an empty list to store the cleaned data frames
+#'# my_list <- list()
+#'#
+#'# # loop through each sheet and apply the cleaning code
+#'# for (sheet_name in sheet_names) {
+#'#
+#'#   column_types <- c('date', 'numeric')
+#'#
+#'#   date_format <- "%d-%m-%y"
+#'#
+#'#   # Read in the sheet as a data frame
+#'#   data <- readxl::read_excel(file_path, sheet = sheet_name, col_types = column_types)
+#'#
+#'#   # add the cleaned data frame to the list
+#'#   my_list[[sheet_name]] <- as.data.frame(data)
+#'# }
+#'
 #'# creating example ####
 #'
 #'# 1st element ####
@@ -34,7 +58,6 @@
 #'
 #'# Merge the two data frames row-wise
 #'df <- rbind(df, df2)
-#'
 #'
 #'# Create a sequence of dates from "2016-02-01" to "2022-12-31"
 #'dates3 <- seq(as.Date("2012-02-01"), as.Date("2012-12-31"), by="day")
@@ -72,7 +95,6 @@
 #'
 #'# Combine the dates and prices into a data frame
 #'df_second <- data.frame(Dates = dates, Price_b = price_1)
-#'
 #'
 #'# Create a sequence of dates from "2016-02-01" to "2022-12-31"
 #'dates2 <- seq(as.Date("2011-06-01"), as.Date("2011-10-31"), by="day")
@@ -113,7 +135,6 @@
 #'# Specify column data types
 #'df_second <- data.frame(Dates = as.Date(df_second$Dates),
 #'                        price_b = round(as.numeric(df_second$Price_b)))
-#'
 #'# my_list ####
 #'# Create a list
 #'my_list <- list()
@@ -241,7 +262,6 @@ clean_and_combine <- function(my_list,
 #'# Merge the two data frames row-wise
 #'df <- rbind(df, df2)
 #'
-#'
 #'# Create a sequence of dates from "2016-02-01" to "2022-12-31"
 #'dates3 <- seq(as.Date("2012-02-01"), as.Date("2012-12-31"), by="day")
 #'
@@ -253,7 +273,6 @@ clean_and_combine <- function(my_list,
 #'
 #'# Merge the two data frames row-wise
 #'df <- rbind(df, df3)
-#'
 #'
 #'# Create a sequence of dates from "2016-02-01" to "2022-12-31"
 #'dates4 <- seq(as.Date("2013-04-01"), as.Date("2022-12-31"), by="day")
@@ -279,7 +298,6 @@ clean_and_combine <- function(my_list,
 #'
 #'# Combine the dates and prices into a data frame
 #'df_second <- data.frame(Dates = dates, Price_b = price_1)
-#'
 #'
 #'# Create a sequence of dates from "2016-02-01" to "2022-12-31"
 #'dates2 <- seq(as.Date("2011-06-01"), as.Date("2011-10-31"), by="day")
@@ -320,7 +338,6 @@ clean_and_combine <- function(my_list,
 #'# Specify column data types
 #'df_second <- data.frame(Dates = as.Date(df_second$Dates),
 #'                        price_b = round(as.numeric(df_second$Price_b)))
-#'
 #'# my_list ####
 #'# Create a list
 #'my_list <- list()
@@ -356,6 +373,190 @@ impute_combined <- function(My_df,
   })
   imputed_df <- data.frame(My_df)
   return(imputed_df)
+}
+#' @title Convert Daily Data to monthly
+#' @description Converts daily data to monthly data. One needs to specify the month format.
+#' @param my_daily_data A data frame containing first column as dates and others are columns contains daily data
+#' @param starting_date From which date data is present
+#' @param ending_date Upto which date data is present
+#' @param year_month_format specify the year month format
+#' @param month_ending_format specify month ending format
+#' @param month_ending_day corresponding days of a month
+#' @param year_month this is a variable, leave this as it is
+#' @param month_ending_date name of the first column of the output data frame
+#' @import dplyr
+#' @return
+#' \itemize{
+#'   \item my_monthly_data: Data frame containing converted data into monthly one
+#'   }
+#' @export
+#' @examples
+#' # creating example ####
+#'
+#'# 1st element ####
+#'# Create a sequence of dates from "2011-01-01" to "2015-12-31"
+#'dates <- seq(as.Date("2011-01-01"), as.Date("2011-03-31"), by="day")
+#'
+#'# Generate random prices for each date
+#'price_1 <- runif(length(dates), min=0, max=100)
+#'
+#'# Combine the dates and prices into a data frame
+#'df <- data.frame(Dates = dates, Price_a = price_1)
+#'
+#'# Create a sequence of dates from "2016-02-01" to "2022-12-31"
+#'dates2 <- seq(as.Date("2011-05-01"), as.Date("2011-12-31"), by="day")
+#'
+#'# Generate random prices for each date
+#'price_2 <- runif(length(dates2), min=0, max=100)
+#'
+#'# Combine the dates and prices into a data frame
+#'df2 <- data.frame(Dates = dates2, Price_a = price_2)
+#'
+#'# Merge the two data frames row-wise
+#'df <- rbind(df, df2)
+#'
+#'# Create a sequence of dates from "2016-02-01" to "2022-12-31"
+#'dates3 <- seq(as.Date("2012-02-01"), as.Date("2012-12-31"), by="day")
+#'
+#'# Generate random prices for each date
+#'price_3 <- runif(length(dates3), min=0, max=100)
+#'
+#'# Combine the dates and prices into a data frame
+#'df3 <- data.frame(Dates = dates3, Price_a = price_3)
+#'
+#'# Merge the two data frames row-wise
+#'df <- rbind(df, df3)
+#'
+#'# Create a sequence of dates from "2016-02-01" to "2022-12-31"
+#'dates4 <- seq(as.Date("2013-04-01"), as.Date("2022-12-31"), by="day")
+#'
+#'# Generate random prices for each date
+#'price_4 <- runif(length(dates4), min=0, max=100)
+#'
+#'# Combine the dates and prices into a data frame
+#'df4 <- data.frame(Dates = dates4, Price_a = price_4)
+#'
+#'# Merge the two data frames row-wise
+#'df <- rbind(df, df4)
+#'
+#'# Specify column data types
+#'df <- data.frame(Dates = as.Date(df$Dates),
+#'                 price_a = round(as.numeric(df$Price_a)))
+#'# 2nd element ####
+#'# Create a sequence of dates from "2011-01-01" to "2015-12-31"
+#'dates <- seq(as.Date("2011-01-01"), as.Date("2011-05-31"), by="day")
+#'
+#'# Generate random prices for each date
+#'price_1 <- runif(length(dates), min=0, max=100)
+#'
+#'# Combine the dates and prices into a data frame
+#'df_second <- data.frame(Dates = dates, Price_b = price_1)
+#'
+#'# Create a sequence of dates from "2016-02-01" to "2022-12-31"
+#'dates2 <- seq(as.Date("2011-06-01"), as.Date("2011-10-31"), by="day")
+#'
+#'# Generate random prices for each date
+#'price_2 <- runif(length(dates2), min=0, max=100)
+#'
+#'# Combine the dates and prices into a data frame
+#'df_second2 <- data.frame(Dates = dates2, Price_b = price_2)
+#'
+#'# Merge the two data frames row-wise
+#'df_second <- rbind(df_second, df_second2)
+#'
+#'# Create a sequence of dates from "2016-02-01" to "2022-12-31"
+#'dates3 <- seq(as.Date("2012-01-01"), as.Date("2012-12-31"), by="day")
+#'
+#'# Generate random prices for each date
+#'price_3 <- runif(length(dates3), min=0, max=100)
+#'
+#'# Combine the dates and prices into a data frame
+#'df_second3 <- data.frame(Dates = dates3, Price_b = price_3)
+#'
+#'# Merge the two data frames row-wise
+#'df_second <- rbind(df_second, df_second3)
+#'
+#'# Create a sequence of dates from "2016-02-01" to "2022-12-31"
+#'dates4 <- seq(as.Date("2013-03-01"), as.Date("2022-12-31"), by="day")
+#'
+#'# Generate random prices for each date
+#'price_4 <- runif(length(dates4), min=0, max=100)
+#'
+#'# Combine the dates and prices into a data frame
+#'df_second4 <- data.frame(Dates = dates4, Price_b = price_4)
+#'
+#'# Merge the two data frames row-wise
+#'df_second <- rbind(df_second, df_second4)
+#'
+#'# Specify column data types
+#'df_second <- data.frame(Dates = as.Date(df_second$Dates),
+#'                        price_b = round(as.numeric(df_second$Price_b)))
+#'# my_list ####
+#'# Create a list
+#'my_list <- list()
+#'
+#'# Add the data frame to the list
+#'my_list$df <- df
+#'
+#'my_list$df_second <- df_second
+#'
+#'# getting output ####
+#'my_combined_data <- clean_and_combine(my_list = my_list)
+#'print(head(my_combined_data))
+#'my_imputed_data <- impute_combined(my_combined_data)
+#'print(head(my_imputed_data))
+#' my_monthly_data <- monthly_from_daily(my_imputed_data)
+#' print(head(my_monthly_data))
+#' @references
+#' \itemize{
+#'   \item Paul, R. K., & Garai, S. (2021). Performance comparison of wavelets-based machine learning technique for forecasting agricultural commodity prices. Soft Computing, 25(20), 12857-12873.
+#'   \item Paul, R. K., & Garai, S. (2022). Wavelets based artificial neural network technique for forecasting agricultural prices. Journal of the Indian Society for Probability and Statistics, 23(1), 47-61.
+#'   \item Garai, S., & Paul, R. K. (2023). Development of MCS based-ensemble models using CEEMDAN decomposition and machine intelligence. Intelligent Systems with Applications, 18, 200202.
+#'   \item Garai, S., Paul, R. K., Rakshit, D., Yeasin, M., Paul, A. K., Roy, H. S., Barman, S. & Manjunatha, B. (2023). An MRA Based MLR Model for Forecasting Indian Annual Rainfall Using Large Scale Climate Indices. International Journal of Environment and Climate Change, 13(5), 137-150.
+#'   }
+monthly_from_daily <- function(my_daily_data,
+                               starting_date = "2011-01-01",
+                               ending_date = "2022-12-31",
+                               year_month_format = "%Y-%m",
+                               month_ending_format = "%Y-%m-%d",
+                               month_ending_day = "-1",
+                               year_month = "year_month",
+                               month_ending_date = "month_ending_date") {
+  df <- data.frame(my_daily_data[,-1])
+  # create sequence of dates
+  dates <- seq(as.Date(starting_date), as.Date(ending_date), by = "day")
+  # add dates to data frame
+  daily_data <- data.frame(dates, df)
+  daily_data$date <- dates
+
+  # get column names
+  col_names <- colnames(df)
+
+  # select first and last columns
+  first_col <- col_names[1]
+  last_col <- col_names[length(col_names)]
+
+  # create monthly data by taking mean of each price series
+  monthly_data <- daily_data %>%
+    group_by(year_month = format(date, year_month_format)) %>%
+    summarize(across({{first_col}}:{{last_col}}, mean))
+
+  # add month ending date to monthly data
+  monthly_data$month_ending_date <- as.Date(paste0(monthly_data$year_month, month_ending_day), format = month_ending_format)
+
+  # summarize monthly data
+  monthly_data_summarized <- monthly_data %>%
+    select(-year_month) %>%
+    group_by(month_ending_date) %>%
+    summarize(across({{first_col}}:{{last_col}}, sum))
+
+  # subset monthly data frame by price series columns
+  monthly_data <- monthly_data_summarized[, c(month_ending_date, col_names)]
+  monthly_data <- monthly_data[-1,]
+
+  my_monthly_data <- as.data.frame(monthly_data)
+  # return monthly prices data frame
+  return(my_monthly_data)
 }
 #' @title Convert Daily Data to Weekly
 #' @description Converts daily data to weekly data. One needs to specify the week format.
@@ -398,7 +599,6 @@ impute_combined <- function(My_df,
 #'# Merge the two data frames row-wise
 #'df <- rbind(df, df2)
 #'
-#'
 #'# Create a sequence of dates from "2016-02-01" to "2022-12-31"
 #'dates3 <- seq(as.Date("2012-02-01"), as.Date("2012-12-31"), by="day")
 #'
@@ -410,7 +610,6 @@ impute_combined <- function(My_df,
 #'
 #'# Merge the two data frames row-wise
 #'df <- rbind(df, df3)
-#'
 #'
 #'# Create a sequence of dates from "2016-02-01" to "2022-12-31"
 #'dates4 <- seq(as.Date("2013-04-01"), as.Date("2022-12-31"), by="day")
@@ -436,7 +635,6 @@ impute_combined <- function(My_df,
 #'
 #'# Combine the dates and prices into a data frame
 #'df_second <- data.frame(Dates = dates, Price_b = price_1)
-#'
 #'
 #'# Create a sequence of dates from "2016-02-01" to "2022-12-31"
 #'dates2 <- seq(as.Date("2011-06-01"), as.Date("2011-10-31"), by="day")
@@ -477,7 +675,6 @@ impute_combined <- function(My_df,
 #'# Specify column data types
 #'df_second <- data.frame(Dates = as.Date(df_second$Dates),
 #'                        price_b = round(as.numeric(df_second$Price_b)))
-#'
 #'# my_list ####
 #'# Create a list
 #'my_list <- list()
